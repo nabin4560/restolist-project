@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<!-- Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<title>Restolist Website | Booking</title>
+	<link href="css/about.css" rel="stylesheet" type="text/css"  media="all" />
+	<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/responsiveslides.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="js/responsiveslides.min.js"></script>
+
+	<div class="header" style="width: 100%">
+		<div class="wrap">
+			<div class="header-top">
+				<div class="logo">
+					<a href="index.html"><h2 style="font-family:Sofia,sans-serif; font-size:80px;">Restolist</h2></a>
+				</div>
+				<div class="contact-info">
+					<p class="phone">Call us : <a href="#">9860767468</a></p>
+					<p class="gpa">Gpa : <a href="https://goo.gl/maps/kunb7UF9N1BVKJaB9">View map</a></p>
+					<i class="fa fa-user-circle" style="font-size:24px; color: #995c00" id="emailId"></i>
+
+				</div>
+				<div class="clear"> </div>
+			</div>
+		</div>
+		<div class="header-top-nav">
+			<div class="wrap">
+				<ul>
+					<!--<li><a href="gallery.html">Home</a></li>-->
+					<li><a href="gallery.html">Back</a></li>
+					<div class="clear"> </div>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<style type="text/css">
+
+		body{
+			background-image: url('images/slider5.jpg');
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+			-webkit-background-size: cover;
+		}
+		.wrapper{
+			width: 50%;
+			position: absolute;
+			top: 80%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			background:white;
+			border-radius: 10px 10px;
+			opacity: 0.9;
+
+
+		}
+
+		.wrapper h1{
+			text-align: center;
+			font-size: 40px;
+			margin: 0 auto;
+			font-family: monotype corsiva;
+			font-weight: bold;
+			color: black;
+			position: relative;
+			border-bottom: 5px solid red;
+			width: 80%;
+			border-radius: 70px;
+
+		}
+
+		.text{
+			width: 100%;
+			overflow: hidden;
+			padding-top: 5px;
+			font-size: 30px;
+			font-weight: bold;
+			padding-left:50px;
+			padding-right: 50px;
+			text-align:center;
+			color: red !important;
+			font-family: monospace;
+		}
+
+	</style>
+</head>
+<body>
+<script>
+
+		fetch("http://localhost:2000/restaurant").then(
+		res=>{
+		res.json().then(
+				data=>{
+					console.log(data);
+					if(data.length > 0){
+						var temp = "<select style='margin-bottom: 30px;' name='restolist' class='form-control bg-transparent'><option disabled='' selected=''> please select the Resturant</option>";
+
+						data.forEach((u)=>{
+							temp+="<option value="+u.resname+">"+u.resname+"</option>"
+						})
+						document.getElementById("data").innerHTML=temp+"</select>";
+						console.log(temp,"debug");
+					}
+				}
+		)
+	}
+		)
+		document.getElementById("emailId").innerHTML=" "+sessionStorage.getItem("user");
+</script>
+
+
+<section class="container-fluid">
+
+	<div class="wrapper">
+
+		<h1 style="margin-bottom: 30px;"> Book Your Table</h1>
+		<form action="book">
+			<div class="text">
+				<div class="form-group">
+
+					<div class="row">
+						<div class="col-6">
+							<input type="text" name="name" class="form-control bg-transparent" placeholder="Name" style="margin-bottom: 30px;">
+						</div>
+						<div class="col-6" id="data">
+
+						</div>
+						<div class="col-12">
+							<input type="text" name="email" class="form-control bg-transparent" placeholder="email" style="margin-bottom: 30px;">
+						</div>
+						<div class="col-12">
+							<input type=" number " name="phone" class="form-control bg-transparent" placeholder="phone" style="margin-bottom: 30px;">
+						</div>
+						<div class="col-12">
+							<input type="date" name="date" class="form-control bg-transparent" placeholder="date" style="margin-bottom: 30px;">
+						</div>
+						<div class="col-12">
+							<input type="time" name="time" class="form-control bg-transparent" placeholder="time" style="margin-bottom: 30px;">
+						</div>
+						<div class="col-12">
+							<input type="number" name="noofpeople" class="form-control bg-transparent" placeholder="no.of people" style="margin-bottom: 30px;">
+						</div>
+
+						<!--<div class="col-12">
+							<input type="number" name="price" class="form-control bg-transparent" id="price" style="margin-bottom: 30px;">
+						</div>-->
+
+						<!--<div id="price" style="color: #dc3545; font-size: 30px"></div><br>-->
+
+						<div class="col-12">
+							<input  class="form-control bg-warning text-white" type="submit" name="value" value="Next">
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</section>
+</body>
+</html>

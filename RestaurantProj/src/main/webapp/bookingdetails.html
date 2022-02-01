@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <title>BookingDetails</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restolist Website | Home</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/responsiveslides.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="js/responsiveslides.min.js"></script>
+
+    <!---start-Wrap--->
+    <!---start-header--->
+    <div class="header" style="width: 100%">
+        <div class="wrap">
+            <div class="header-top">
+                <div class="logo">
+                    <a href="index.html"><h2 style="font-family:Sofia,sans-serif; font-size:50px;">Restolist</h2></a>
+                </div>
+                <div class="contact-info">
+                    <p class="phone">Call us : <a href="#">9860767468</a></p>
+                    <p class="gpa">Gpa : <a href="https://goo.gl/maps/kunb7UF9N1BVKJaB9">View map</a></p>
+                    <i class="fa fa-user-circle" style="font-size:24px; color: #995c00" id="emailId"></i>
+
+                </div>
+                <div class="clear"> </div>
+            </div>
+        </div>
+        <div class="header-top-nav">
+            <div class="wrap">
+                <ul>
+                    <!--<li><a href="gallery.html">Home</a></li>-->
+                    <li><a href="gallery.html">Back</a></li>
+                    <div class="clear"> </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</head>
+<body>
+<style>
+    .container{
+        margin-top:4%;
+        font-weight:bold;
+        width: 100%;
+        padding:1%;
+        border-radius: 15px;
+        background-color: white;
+        opacity: 1.0;
+    }
+    body{
+        background: url("images/slider6.jpg");
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .block {
+        display: block;
+        width: 105%;
+        border: none;
+        color: white;
+        padding: 14px 28px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+
+</style>
+
+<div class="container">
+    <h1><center>LIST OF BOOKINGS</center></h1>
+    <table class="table table-bordered table-sripped" id="booking" >
+        <thead>
+        <tr>
+            <th>NAME</th>
+            <th>DATE</th>
+            <th>TIME</th>
+            <th>EMAIL</th>
+            <th>NO. OF PEOPLE</th>
+            <th>PHONE</th>
+            <th>RESTAURANT</th>
+        </tr>
+        </thead>
+        <tbody id="data">
+        </tbody>
+    </table>
+</div>
+<div class="block">
+<button type="submit" onclick="tableToPdf()">Download</button>
+</div>
+<script type="text/javascript">
+
+        console.log("hello");
+        document.getElementById("emailId").innerHTML=" "+sessionStorage.getItem("user");
+
+        let emailId = sessionStorage.getItem("email");
+        user = {
+            "email": emailId
+        }
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type':
+                    'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(user)
+        }
+
+    fetch("http://localhost:2000/booking",options)
+        .then(res=> res.json())
+        .then(data=>{
+                    console.log(data);
+                    if(data.length > 0){
+                        var temp = "";
+
+                        data.forEach((u)=>{
+                           /* window.alert(u.name);*/
+                            temp +="<tr>";
+                            temp +="<td>"+u.name+"</td>";
+                            temp +="<td>"+u.date+"</td>";
+                            temp +="<td>"+u.time+"</td>";
+                            temp +="<td>"+u.email+"</td>";
+                            temp +="<td>"+u.noofpeople+"</td>";
+                            temp +="<td>"+u.phone+"</td>";
+                            temp +="<td>"+u.restolist+"</td></tr>";
+                        })
+                        document.getElementById("data").innerHTML=temp;
+                    }
+                }
+            )
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
+<script>
+
+    function tableToPdf() {
+
+        var doc = new jsPDF();
+        doc.autoTable({html: '#booking'});
+        doc.save("bill.pdf");
+
+
+    }
+</script>
+</body>
+</html>
